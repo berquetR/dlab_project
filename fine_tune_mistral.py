@@ -99,8 +99,13 @@ def main():
     model.config.use_cache = True
     model.eval()
 
-
+    # Save the model
+    model.save_pretrained(new_model)
+    tokenizer.save_pretrained(new_model)
+    model.config.save_pretrained(new_model)
+    peft_config.save_pretrained(new_model)
     
+
 
 def propmt (example):
     return {'text' : "<s>[INST]" + 'Given the current Wikipedia page we are on : '+ example['source'] + ' the original wikipedia page from where we started' + example['original_source'] + ' the proposed links to other Wikipedia pages are :' + example['source_links'] + ' In order to arrive the fastest, in terms of the number of Wikipedia pages visited, to the Wikipedia page :'+ example['target']+ ' On which link should we click on ?' "[/INST]" +  example["optimal_choice"] + '</s>'}

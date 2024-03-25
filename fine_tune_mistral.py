@@ -19,6 +19,9 @@ def main():
     #Importing the dataset from HUGGINGFACE
     dataset = load_dataset("berquetR/train")
 
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
+
     #Create the prompt
     dataset = dataset.map(lambda example : propmt(example), remove_columns = ['source', 'original_source', 'source_links', 'target', 'optimal_choice'])
 
@@ -104,7 +107,7 @@ def main():
     tokenizer.save_pretrained(new_model)
     model.config.save_pretrained(new_model)
     peft_config.save_pretrained(new_model)
-    
+
 
 
 def propmt (example):
